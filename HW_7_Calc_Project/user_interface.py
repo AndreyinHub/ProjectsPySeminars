@@ -3,6 +3,29 @@ from excep import check_complex1, check_complex2
 
 import mod_calc as c
 
+def menu():
+    print('Calculator welcomes you!')
+    while True:
+        st = input('Working with: \n'
+                   '1 - rational\n'
+                   '2 - complex\n'
+                   '0 - exit\n'
+                   'Enter selected digit: '
+                   )
+        match st:
+            case '1':
+                menu_rat()
+            case '2':
+                menu_com()
+            case '0':
+                logging.info("Stop program.")
+                break
+            case _:
+                logging.warning("Main menu, wrong item selected.")
+                print('Error. The menu item is not recognized. Try again!')
+                break
+
+
 def get_numder():
     while True:
         try:
@@ -88,24 +111,4 @@ def menu_com():
                 break
 
 
-def menu():
-    print('Calculator welcomes you!')
-    while True:
-        st = input('Working with: \n'
-                   '1 - rational\n'
-                   '2 - complex\n'
-                   '0 - exit\n'
-                   'Enter selected digit: '
-                   )
-        match st:
-            case '1':
-                menu_rat()
-            case '2':
-                menu_com()
-            case '0':
-                logging.info("Stop program.")
-                break
-            case _:
-                logging.warning("Main menu, wrong item selected.")
-                print('Error. The menu item is not recognized. Try again!')
-                break
+
