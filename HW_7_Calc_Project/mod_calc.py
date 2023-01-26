@@ -26,7 +26,7 @@ def sum(a, b):
 def sub(a, b):
     return f'res = {a - b}'
 
-def mult(a, b):
+def mul(a, b):
     return f'res = {a * b}'
 
 def div (a, b):
