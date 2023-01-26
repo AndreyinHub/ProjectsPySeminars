@@ -1,7 +1,14 @@
-27-01-2023 00:19:32 - main - INFO - <module> - Start program
-27-01-2023 00:21:51 - main - INFO - <module> - Start program
-27-01-2023 00:22:09 - user_interface - WARNING - menu - Main menu, wrong item selected.
-27-01-2023 00:22:17 - main - INFO - <module> - Start program
-27-01-2023 00:30:27 - user_interface - WARNING - menu - Main menu, wrong item selected.
-27-01-2023 00:30:33 - main - INFO - <module> - Start program
-27-01-2023 00:31:51 - user_interface - INFO - menu - Stop program.
+
+27-01-2023 01:21:59 - user_interface - INFO - menu_rat - Start menu calc. With data type =  rational.
+27-01-2023 01:22:16 - user_interface - INFO - menu_com - Start menu calc. With data type =  complex.
+27-01-2023 01:22:34 - user_interface - INFO - menu - Stop program.
+27-01-2023 01:29:59 - main - INFO - <module> - Start program
+27-01-2023 01:30:03 - user_interface - INFO - menu_rat - Start menu calc. With data type =  rational.
+27-01-2023 01:30:09 - user_interface - INFO - menu_rat - Sum: 4.0 + 5.0 = res = 9.0
+27-01-2023 01:37:02 - user_interface - INFO - menu - Stop program.
+27-01-2023 01:37:10 - main - INFO - <module> - Start program
+27-01-2023 01:37:14 - user_interface - INFO - menu_rat - Start menu calc. With data type =  rational.
+27-01-2023 01:37:26 - user_interface - INFO - menu_rat - Div rem: 12.5 % 2.0 = res = 0.5
+27-01-2023 01:37:54 - user_interface - INFO - menu_rat - Start menu calc. With data type =  rational.
+27-01-2023 01:38:12 - user_interface - INFO - menu_rat - Sqrt: 9.0 ** 0.5 = 3.0
+27-01-2023 01:39:27 - user_interface - INFO - menu - Stop program.
