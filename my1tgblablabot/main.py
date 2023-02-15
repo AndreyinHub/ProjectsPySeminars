@@ -8,7 +8,6 @@ from telegram.ext import (
     Filters,
     ConversationHandler,
 )
- 
 print('Start program') 
 
 # поиск токена для телеграмма 
@@ -27,7 +26,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Определяем константы этапов разговора
-GENDER, PHOTO, LOCATION, BIO = range(4)
+GENDER, AGE, PHOTO, LOCATION, BIO = range(5)
 
 # функция обратного вызова точки входа в разговор
 def start(update, _):
@@ -37,15 +36,15 @@ def start(update, _):
     markup_key = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True)
     # Начинаем разговор с вопроса
     update.message.reply_text(
-        'Меня зовут профессор Бот. Я проведу с вами беседу. '
+        'Меня зовут Бот, вот. Я проведу с вами беседу. '
         'Команда /cancel, чтобы прекратить разговор.\n\n'
         'Ты мальчик или девочка?',
         reply_markup=markup_key,)
-    # переходим к этапу `GENDER`, это значит, что ответ
-    # отправленного сообщения в виде кнопок будет список 
-    # обработчиков, определенных в виде значения ключа `GENDER`
+    ## переходим к этапу `GENDER`, это значит, что ответ
+    ## отправленного сообщения в виде кнопок будет список 
+    ## обработчиков, определенных в виде значения ключа `GENDER`
     return GENDER
-
+  
 # Обрабатываем пол пользователя
 def gender(update, _):
     # определяем пользователя
@@ -54,12 +53,50 @@ def gender(update, _):
     logger.info("Пол %s: %s", user.first_name, update.message.text)
     # Следующее сообщение с удалением клавиатуры `ReplyKeyboardRemove`
     update.message.reply_text(
-        'Хорошо. Пришли мне свою фотографию, чтоб я знал как ты '
-        'выглядишь, или отправь /skip, если стесняешься.',
+        'Хорошо, спасибо! А сколько лет тебе, скажи, а? '
+        ' Если не хочешь говорить или стесняешься- отправь /skip',
         reply_markup=ReplyKeyboardRemove(),
+    )
+
+    # переходим к этапу `AGE`
+    return AGE
+    
+##-=-=-=-=-=- BeLow New part about AGE -=-=-=-=-=-##
+  
+# Обрабатываем возраст пользователя
+def age(update, _):
+    # определяем возраст пользователя
+    user = update.message.from_user
+    # захватываем возраст пользователя
+    user_age = update.message.text
+    # Пишем в журнал сведения о возрасте
+    logger.info(
+        "Great, %s only %s years old ", user.first_name, user_age)
+    # Отвечаем на сообщение о возрасте
+    update.message.reply_text(
+        'Класс! Желаю много раз по столько же!\n' 
+        ' А фотку пришлешь, чтоб я знал как ты выглядишь?'
+        ' Ну или отправь /skip, если стесняешься.'
     )
     # переходим к этапу `PHOTO`
     return PHOTO
+
+# Обрабатываем команду /skip для возраста
+def skip_age(update, _):
+    # определяем пользователя
+    user = update.message.from_user
+    # Пишем в журнал сведения об отказе
+    logger.info("User %s did not say own age.", user.first_name)
+    # Отвечаем на сообщение с пропущенным возрастом
+    update.message.reply_text(
+        'Ну ладно, анонимность- тоже право!'
+        'Пришли мне свою фотографию, чтоб я знал как ты '
+        'выглядишь, или отправь /skip, если стесняешься.'
+    )
+    # переходим к этапу `PHOTO`
+    return PHOTO                  
+##-=-=-=-=-=- Upper New part about AGE -=-=-=-=-=-##
+
 
 # Обрабатываем фотографию пользователя
 def photo(update, _):
@@ -73,7 +110,7 @@ def photo(update, _):
     logger.info("Фотография %s: %s", user.first_name, f'{user.first_name}_photo.jpg')
     # Отвечаем на сообщение с фото
     update.message.reply_text(
-        'Великолепно! А в каком городе ты живешь?'
+        'Великолепно! Делиться не буду- себе оставлю! А в каком городе ты живешь?'
         ' Напиши, или жми /skip если стесняешься.'
     )
     # переходим к этапу `LOCATION`
@@ -87,8 +124,8 @@ def skip_photo(update, _):
     logger.info("Пользователь %s не отправил фото.", user.first_name)
     # Отвечаем на сообщение с пропущенной фотографией
     update.message.reply_text(
-        'Держу пари, ты выглядишь великолепно! А в каком городе ты живешь?'
-        ' Напиши, или жми /skip если стесняешься.'
+        ' Нет фото? Не беда. Держу пари, выглядишь ты великолепно!\n'
+        'А в каком городе ты живешь? Напиши, или жми /skip если стесняешься.'
     )
     # переходим к этапу `LOCATION`
     return LOCATION
@@ -142,8 +179,8 @@ def cancel(update, _):
     logger.info("Пользователь %s отменил разговор.", user.first_name)
     # Отвечаем на отказ поговорить
     update.message.reply_text(
-        'Мое дело предложить - Ваше отказаться'
-        ' Будет скучно - пиши.', 
+        ' Ну нет- так нет!'
+        ' Будет скучно - пиши. Пока-пока!', 
         reply_markup=ReplyKeyboardRemove()
     )
     # Заканчиваем разговор.
@@ -157,7 +194,7 @@ if __name__ == '__main__':
     dispatcher = updater.dispatcher
 
     # Определяем обработчик разговоров `ConversationHandler` 
-    # с состояниями GENDER, PHOTO, LOCATION и BIO
+    # с состояниями GENDER, AGE, PHOTO, LOCATION и BIO
     conv_handler = ConversationHandler( # здесь строится логика разговора
         # точка входа в разговор
         
@@ -165,8 +202,9 @@ if __name__ == '__main__':
         # этапы разговора, каждый со своим списком обработчиков сообщений
         states={
             GENDER: [MessageHandler(Filters.regex('^(Boy|Girl)$'), gender)],
+            AGE: [MessageHandler(Filters.text, age), CommandHandler('skip', skip_age)],
             PHOTO: [MessageHandler(Filters.photo, photo), CommandHandler('skip', skip_photo)],
-            LOCATION: [MessageHandler(Filters.text, location),CommandHandler('skip', skip_location)],
+            LOCATION: [MessageHandler(Filters.text, location), CommandHandler('skip', skip_location)],
             BIO: [MessageHandler(Filters.text & ~Filters.command, bio)]
         },
         # точка выхода из разговора
